@@ -20,13 +20,22 @@ bot.command('/start', (ctx) => {
 
 bot.command(/next [0-9][0-9][0-9]/, (ctx) => {
     const num = ctx.match[0].split(' ')[1];
-    bot.sendMessage(ctx.message.user_id, currentTimeTable[num].join('\n'));
+    try {
+        bot.sendMessage(ctx.message.user_id, currentTimeTable[num].join('\n'));
+    } catch (e) {
+        bot.sendMessage(ctx.message.user_id, 'Такого номер нет в расписании. Попробуй снова');
+    }
 });
 
 bot.command(/curr [0-9][0-9][0-9]/, (ctx) => {
     console.log(ctx);
     const num = ctx.match[0].split(' ')[1];
-    bot.sendMessage(ctx.message.user_id, nextTimeTable[num].join('\n'));
+    try {
+        bot.sendMessage(ctx.message.user_id, nextTimeTable[num].join('\n'));
+
+    } catch (e){
+        bot.sendMessage(ctx.message.user_id, 'Такого номер нет в расписании. Попробуй снова');
+    }
 });
 
 
