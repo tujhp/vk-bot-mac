@@ -1,32 +1,32 @@
 
 const VkBot = require('node-vk-bot-api');
 const Markup = require('node-vk-bot-api/lib/markup');
+const fs = require('fs');
+const bot = new VkBot('1833fc90c6daa0fe13fdef536c2cc8d12c82cc912a3a05506a1080ced44aad9efc5d3944dff337ba38c90');
 
-const bot = new VkBot('81e6fa548a1718f712ef3642e0b449d38033b4cd3839979dd9dc569ba5ae7d00ace901382aa2faf890915');
+let nextTimeTable = fs.readFileSync('parsedTime.txt', 'utf-8');
+let currentTimeTable = fs.readFileSync('parsedTime.txt', 'utf-8');
+nextTimeTable = JSON.parse(nextTimeTable);
+currentTimeTable = JSON.parse(currentTimeTable);
+
+
 
 bot.command('/start', (ctx) => {
-    ctx.reply('Выбери на какую неделю ты хочешь узнать рассписание', null, Markup
-        .keyboard([
-            [
-                Markup.button('/расписание на эту неделю', 'primary'),
-            ],
-            [
-                Markup.button('/расписание на след. неделю', 'positive'),
-            ],
-        ]),
-    )
+    ctx.reply(`На эту неделю "/curr номер(009, 115, 032)"
+               На след. неделю "/next номер(009, 115, 032)"`);
 });
 
 
 
-bot.command('/расписание на эту неделю', (ctx) => {
-    console.log(ctx);
-    bot.sendMessage(ctx.message.user_id, 'Рассписание на эту неделю', ['photo-109859315_457239018','photo-109859315_457239018']);
+bot.command(/next [0-9][0-9][0-9]/, (ctx) => {
+    const num = ctx.match[0].split(' ')[1];
+    bot.sendMessage(ctx.message.user_id, currentTimeTable[num].join('\n'));
 });
 
-bot.command('/расписание на след. неделю', (ctx) => {
+bot.command(/curr [0-9][0-9][0-9]/, (ctx) => {
     console.log(ctx);
-    bot.sendMessage(ctx.message.user_id, 'Расписание на следующую неделю', ['photo-109859315_457239020']);
+    const num = ctx.match[0].split(' ')[1];
+    bot.sendMessage(ctx.message.user_id, nextTimeTable[num].join('\n'));
 });
 
 
