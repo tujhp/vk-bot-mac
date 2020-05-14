@@ -2,7 +2,7 @@
 const VkBot = require('node-vk-bot-api');
 const Markup = require('node-vk-bot-api/lib/markup');
 const fs = require('fs');
-const bot = new VkBot('1833fc90c6daa0fe13fdef536c2cc8d12c82cc912a3a05506a1080ced44aad9efc5d3944dff337ba38c90');
+const bot = new VkBot('token');
 
 let nextTimeTable = fs.readFileSync('parsedTime.txt', 'utf-8');
 let currentTimeTable = fs.readFileSync('parsedTime.txt', 'utf-8');
